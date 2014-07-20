@@ -1,15 +1,29 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Implementation matrix inverse which is using cache for the performance optimization
 
-## Write a short comment describing this function
+## Initializes and returns the object that keeps the matrix and its inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-
+	inv <- NULL
+	set <- function(y){
+		x <<- y
+		inv <<- NULL
+	}
+	get <- function() x
+	setinv <- function(inverse) inv <<- inverse
+	getinv <- function() inv
+	list(set = set, get = get, setinv = setinv, getinv = getinv) 
 }
 
 
-## Write a short comment describing this function
+## gets the inverse matrix by using the cache
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+	inv <- x$getinv()
+	if(!is.null(inv)){
+		return(inv)
+	}
+	data <- x$get()
+	inv <- solve(x$get())
+	x$setinv(inv)
+	inv
 }
